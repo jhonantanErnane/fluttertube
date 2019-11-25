@@ -1,6 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertube/blocs/favorite_bloc.dart';
 import 'package:fluttertube/blocs/videos_bloc.dart';
 import 'package:fluttertube/delegates/data_search.dart';
 import 'package:fluttertube/models/video.dart';
@@ -12,7 +11,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _favBloc = BlocProvider.of<FavoriteBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
@@ -23,18 +21,10 @@ class Home extends StatelessWidget {
         actions: <Widget>[
           Align(
             alignment: Alignment.center,
-            child: StreamBuilder<Map<String, Video>>(
-              stream: _favBloc.outFav,
-              builder: (BuildContext context,
-                  AsyncSnapshot<Map<String, Video>> snapshot) {
-                if (!snapshot.hasData) {
-                  return Container();
-                }
-                return Text(
-                  '${snapshot.data.length}',
-                  textAlign: TextAlign.center,
-                );
-              },
+            // TODO: Numero de favoritos
+            child: Text(
+              '3',
+              textAlign: TextAlign.center,
             ),
           ),
           IconButton(
@@ -50,41 +40,51 @@ class Home extends StatelessWidget {
               String result =
                   await showSearch(context: context, delegate: DataSearch());
               if (result != null) {
-                BlocProvider.of<VideosBloc>(context).inSearch.add(result);
+                // TODO: Criar evento de search
+                // BlocProvider.of<VideosBloc>(context).inSearch.add(result);
               }
             },
           ),
         ],
       ),
-      body: StreamBuilder(
-        stream: BlocProvider.of<VideosBloc>(context).outVideos,
-        initialData: [],
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return Container();
-          }
-          return ListView.builder(
-            itemCount: snapshot.data.length + 1,
-            itemBuilder: (BuildContext context, int index) {
-              if (index < snapshot.data.length) {
-                return VideoTile(
-                  video: snapshot.data[index],
-                );
-              } else if (index > 1) {
-                BlocProvider.of<VideosBloc>(context).inSearch.add(null);
-                return Container(
-                  height: 40,
-                  width: 40,
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.red),
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            },
+
+      // TODO: Renderização da lista
+      body:
+          //  StreamBuilder(
+          // stream: BlocProvider.of<VideosBloc>(context).outVideos,
+          // initialData: [],
+          // builder: (BuildContext context, AsyncSnapshot snapshot) {
+          //   if (!snapshot.hasData) {
+          //     return Container();
+          //   }
+          ListView.builder(
+        itemCount: 1,
+        itemBuilder: (BuildContext context, int index) {
+          Video _video = Video(
+              channel: '423423',
+              id: '142233241',
+              thumb:
+                  'https://lh3.googleusercontent.com/5EfQBHDb47tchiART6U6yk3yYS9qBYr6VUssB5wHE1AgavqV5E2SSuzyiNkc7UgVng',
+              title: 'teste');
+          // if (index < snapshot.data.length) {
+          return VideoTile(
+            video: _video,
           );
+          // } else if (index > 1) {
+          // BlocProvider.of<VideosBloc>(context).inSearch.add(null);
+          //   return Container(
+          //     height: 40,
+          //     width: 40,
+          //     alignment: Alignment.center,
+          //     child: CircularProgressIndicator(
+          //       valueColor: AlwaysStoppedAnimation(Colors.red),
+          //     ),
+          //   );
+          // } else {
+          //   return Container();
+          // }
+          // },
+          // );
         },
       ),
     );

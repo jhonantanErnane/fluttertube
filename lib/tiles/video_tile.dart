@@ -1,9 +1,6 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
-import 'package:fluttertube/blocs/favorite_bloc.dart';
 import 'package:fluttertube/models/video.dart';
-
 import '../api.dart';
 
 class VideoTile extends StatelessWidget {
@@ -12,7 +9,7 @@ class VideoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _blocFav = BlocProvider.of<FavoriteBloc>(context);
+    // final _blocFav = BlocProvider.of<FavoriteBloc>(context);
     return GestureDetector(
       onTap: () {
         FlutterYoutube.playYoutubeVideoById(
@@ -56,23 +53,29 @@ class VideoTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                StreamBuilder<Map<String, Video>>(
-                  stream: _blocFav.outFav,
-                  initialData: {},
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
-                    }
-                    return IconButton(
-                      icon: Icon(snapshot.data.containsKey(video.id)
-                          ? Icons.star
-                          : Icons.star_border),
-                      onPressed: () {
-                        _blocFav.toggleFavorite(video);
-                      },
-                    );
-                  },
-                ),
+                IconButton(
+                  icon: Icon(Icons.star),
+                  onPressed: () {},
+                )
+
+                // TODO: Parte que verifica se o video foi marcado como favorito anteriormente
+                // StreamBuilder<Map<String, Video>>(
+                //   stream: _blocFav.outFav,
+                //   initialData: {},
+                //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+                //     if (!snapshot.hasData) {
+                //       return CircularProgressIndicator();
+                //     }
+                //     return IconButton(
+                //       icon: Icon(snapshot.data.containsKey(video.id)
+                //           ? Icons.star
+                //           : Icons.star_border),
+                //       onPressed: () {
+                //         _blocFav.toggleFavorite(video);
+                //       },
+                //     );
+                //   },
+                // ),
               ],
             )
           ],
