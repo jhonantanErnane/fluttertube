@@ -1,6 +1,4 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertube/blocs/videos_bloc.dart';
 import 'package:fluttertube/delegates/data_search.dart';
 import 'package:fluttertube/models/video.dart';
 import 'package:fluttertube/screens/favorites.dart';
