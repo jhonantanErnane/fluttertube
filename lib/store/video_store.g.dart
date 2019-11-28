@@ -26,6 +26,23 @@ mixin _$VideoStore on _VideoStore, Store {
     }, _$videosAtom, name: '${_$videosAtom.name}_set');
   }
 
+  final _$loadingStateAtom = Atom(name: '_VideoStore.loadingState');
+
+  @override
+  LoadingState get loadingState {
+    _$loadingStateAtom.context.enforceReadPolicy(_$loadingStateAtom);
+    _$loadingStateAtom.reportObserved();
+    return super.loadingState;
+  }
+
+  @override
+  set loadingState(LoadingState value) {
+    _$loadingStateAtom.context.conditionallyRunInAction(() {
+      super.loadingState = value;
+      _$loadingStateAtom.reportChanged();
+    }, _$loadingStateAtom, name: '${_$loadingStateAtom.name}_set');
+  }
+
   final _$onSearchAsyncAction = AsyncAction('onSearch');
 
   @override
