@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertube/models/video.dart';
+import 'package:fluttertube/store/favorite_store.dart';
 import '../api.dart';
 
 class VideoTile extends StatelessWidget {
   final Video video;
-  const VideoTile({Key key, this.video}) : super(key: key);
+  VideoTile({Key key, this.video}) : super(key: key);
+  final _favoriteStore = FavoriteStore();
 
   @override
   Widget build(BuildContext context) {
@@ -53,29 +56,18 @@ class VideoTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.star),
-                  onPressed: () {},
+                Observer(
+                  builder: (context) {
+                    return IconButton(
+                      icon: Icon(_favoriteStore.favorites.contains(video)
+                          ? Icons.star
+                          : Icons.star_border),
+                      onPressed: () {
+                        _favoriteStore.toggleFavorite(video);
+                      },
+                    );
+                  },
                 )
-
-                // TODO: Parte que verifica se o video foi marcado como favorito anteriormente
-                // StreamBuilder<Map<String, Video>>(
-                //   stream: _blocFav.outFav,
-                //   initialData: {},
-                //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                //     if (!snapshot.hasData) {
-                //       return CircularProgressIndicator();
-                //     }
-                //     return IconButton(
-                //       icon: Icon(snapshot.data.containsKey(video.id)
-                //           ? Icons.star
-                //           : Icons.star_border),
-                //       onPressed: () {
-                //         _blocFav.toggleFavorite(video);
-                //       },
-                //     );
-                //   },
-                // ),
               ],
             )
           ],

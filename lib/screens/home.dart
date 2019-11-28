@@ -3,12 +3,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertube/delegates/data_search.dart';
 import 'package:fluttertube/enums/loading_enum.dart';
 import 'package:fluttertube/screens/favorites.dart';
+import 'package:fluttertube/store/favorite_store.dart';
 import 'package:fluttertube/store/video_store.dart';
 import 'package:fluttertube/tiles/video_tile.dart';
 
 class Home extends StatelessWidget {
   Home({Key key}) : super(key: key);
   final VideoStore _videoStore = VideoStore();
+  final FavoriteStore _favoriteStore = FavoriteStore();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,13 @@ class Home extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             // TODO: Numero de favoritos
-            child: Text(
-              '3',
-              textAlign: TextAlign.center,
+            child: Observer(
+              builder: (context) {
+                return Text(
+                  '${_favoriteStore.numberOfFav}',
+                  textAlign: TextAlign.center,
+                );
+              },
             ),
           ),
           IconButton(
