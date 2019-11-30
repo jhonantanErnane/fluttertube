@@ -32,16 +32,10 @@ mixin _$FavoriteStore on _FavoriteStore, Store {
     }, _$favoritesAtom, name: '${_$favoritesAtom.name}_set');
   }
 
-  final _$_FavoriteStoreActionController =
-      ActionController(name: '_FavoriteStore');
+  final _$toggleFavoriteAsyncAction = AsyncAction('toggleFavorite');
 
   @override
-  void toggleFavorite(Video v) {
-    final _$actionInfo = _$_FavoriteStoreActionController.startAction();
-    try {
-      return super.toggleFavorite(v);
-    } finally {
-      _$_FavoriteStoreActionController.endAction(_$actionInfo);
-    }
+  Future toggleFavorite(Video v) {
+    return _$toggleFavoriteAsyncAction.run(() => super.toggleFavorite(v));
   }
 }
