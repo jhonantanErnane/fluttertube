@@ -26,7 +26,6 @@ class Home extends StatelessWidget {
         actions: <Widget>[
           Align(
             alignment: Alignment.center,
-            // TODO: Numero de favoritos
             child: Observer(
               builder: (context) {
                 return Text(

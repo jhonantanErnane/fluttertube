@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertube/api.dart';
+import 'package:fluttertube/models/video.dart';
 import 'package:fluttertube/store/favorite_store.dart';
 import 'package:provider/provider.dart';
 
@@ -9,78 +11,46 @@ class Favorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _favoriteStore = Provider.of<FavoriteStore>(context);
-    for (var item in _favoriteStore.favorites) {
-      print(item.title);
-    }
     return Scaffold(
         appBar: AppBar(
           title: Text('Favoritos'),
           centerTitle: true,
         ),
-
-        // TODO: Lista de Favoritos
-        body: InkWell(
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 100,
-                height: 50,
-                child: Image.network(
-                    'https://lh3.googleusercontent.com/5EfQBHDb47tchiART6U6yk3yYS9qBYr6VUssB5wHE1AgavqV5E2SSuzyiNkc7UgVng'),
-              ),
-              Expanded(
-                child: Text(
-                  'teste',
-                  maxLines: 2,
+        body: Observer(builder: (_) {
+          final _favoriteStore = Provider.of<FavoriteStore>(context);
+          if (_favoriteStore.favorites.length == 0) {
+            return Center(child: Text('Nenhum video adicionado aos favoritos'));
+          }
+          return ListView.builder(
+            itemCount: _favoriteStore.favorites.length,
+            itemBuilder: (BuildContext context, int index) {
+              Video _video = _favoriteStore.favorites[index];
+              return InkWell(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: 100,
+                      height: 50,
+                      child: Image.network(_video.thumb),
+                    ),
+                    Expanded(
+                      child: Text(
+                        _video.title,
+                        maxLines: 2,
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-          onTap: () {
-            // TODO: Play video
-            FlutterYoutube.playYoutubeVideoById(
-                apiKey: API_KEY, videoId: '22331432');
-          },
-          onLongPress: () {
-            // TODO: Remover favoritos
-          },
-        )
-        //  StreamBuilder<Map<String, Video>>(
-        //   stream: _favBloc.outFav,
-        //   initialData: {},
-        //   builder:
-        //       (BuildContext context, AsyncSnapshot<Map<String, Video>> snapshot) {
-        //     return ListView(
-        //       children: snapshot.data.values.map((v) {
-        //         return InkWell(
-        //           child: Row(
-        //             children: <Widget>[
-        //               Container(
-        //                 width: 100,
-        //                 height: 50,
-        //                 child: Image.network(v.thumb),
-        //               ),
-        //               Expanded(
-        //                 child: Text(
-        //                   v.title,
-        //                   maxLines: 2,
-        //                 ),
-        //               )
-        //             ],
-        //           ),
-        //           onTap: () {
-        //             FlutterYoutube.playYoutubeVideoById(
-        //                 apiKey: API_KEY, videoId: v.id);
-        //           },
-        //           onLongPress: () {
-        //             _favBloc.toggleFavorite(v);
-        //           },
-        //         );
-        //       }).toList(),
-        //     );
-        //   },
-        // ),
-        );
+                onTap: () {
+                  FlutterYoutube.playYoutubeVideoById(
+                      apiKey: API_KEY, videoId: _video.id);
+                },
+                onLongPress: () {
+                  _favoriteStore.toggleFavorite(_video);
+                },
+              );
+            },
+          );
+        }));
   }
 }
