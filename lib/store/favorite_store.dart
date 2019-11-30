@@ -1,15 +1,14 @@
-import 'dart:convert';
-
 import 'package:fluttertube/models/video.dart';
+import 'package:fluttertube/services/shared_preferences_service.dart';
 import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 part 'favorite_store.g.dart';
 
 class FavoriteStore = _FavoriteStore with _$FavoriteStore;
 
 abstract class _FavoriteStore with Store {
-  _FavoriteStore() {
-    _init();
+  final SharedPreferencesService _preferencesServices;
+  _FavoriteStore(this._preferencesServices) {
+    favorites = _preferencesServices.favorites;
   }
 
   @observable
@@ -25,21 +24,7 @@ abstract class _FavoriteStore with Store {
     } else {
       favorites.add(v);
     }
-    await _saveFav();
+    _preferencesServices.saveFavorites = favorites;
   }
 
-  Future _init() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getKeys().contains('favorites')) {
-      favorites = ObservableList.of(json
-          .decode(prefs.getString('favorites'))
-          .map<Video>((v) => Video.fromJson(v))
-          .toList());
-    } else {}
-  }
-
-  Future _saveFav() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('favorites', json.encode(favorites));
-  }
 }

@@ -1,4 +1,6 @@
-class Video {
+import 'package:equatable/equatable.dart';
+
+class Video extends Equatable {
   final String id;
   final String title;
   final String thumb;
@@ -27,4 +29,7 @@ class Video {
   Map<String, dynamic> toJson() {
     return {'videoId': id, 'title': title, 'thumb': thumb, 'channel': channel};
   }
+
+  @override
+  List<Object> get props => [id, title, thumb, channel];
 }

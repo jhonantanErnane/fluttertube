@@ -9,11 +9,10 @@ import '../api.dart';
 class VideoTile extends StatelessWidget {
   final Video video;
   VideoTile({Key key, this.video}) : super(key: key);
-  // final _favoriteStore = FavoriteStore();
 
   @override
   Widget build(BuildContext context) {
-    // final _blocFav = BlocProvider.of<FavoriteBloc>(context);
+    final _favoriteStore = Provider.of<FavoriteStore>(context);
     return GestureDetector(
       onTap: () {
         FlutterYoutube.playYoutubeVideoById(
@@ -59,7 +58,6 @@ class VideoTile extends StatelessWidget {
                 ),
                 Observer(
                   builder: (context) {
-                    final _favoriteStore = Provider.of<FavoriteStore>(context);
                     return IconButton(
                       icon: Icon(_favoriteStore.favorites.contains(video)
                           ? Icons.star

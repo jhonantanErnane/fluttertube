@@ -29,6 +29,7 @@ dependencies:
   mobx: 0.3.9+3
   flutter_mobx: 0.3.3+3
   provider: 3.2.0
+  equatable: 1.0.0
 
 dev_dependencies:
   flutter_test:
