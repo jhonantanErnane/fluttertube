@@ -17,20 +17,18 @@ abstract class _FavoriteStore with Store {
   @observable
   ObservableList<Video> favorites = ObservableList<Video>();
 
-  // @computed
-  // Observable<int> get numberOfFav => Observable(favorites.length); // '${favorites.length}';
+  @computed
+  int get numberOfFav => favorites.length; // '${favorites.length}';
 
-  @observable
-  int numberOfFav = 0; // '${favorites.length}';
+  // @observable
+  // int numberOfFav = 0; // '${favorites.length}';
 
   @action
   void toggleFavorite(Video v) {
     if (favorites.contains(v)) {
       favorites.remove(v);
-      numberOfFav--;
     } else {
       favorites.add(v);
-      numberOfFav++;
     }
     // await _saveFav();
   }

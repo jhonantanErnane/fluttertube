@@ -9,6 +9,12 @@ part of 'favorite_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FavoriteStore on _FavoriteStore, Store {
+  Computed<int> _$numberOfFavComputed;
+
+  @override
+  int get numberOfFav =>
+      (_$numberOfFavComputed ??= Computed<int>(() => super.numberOfFav)).value;
+
   final _$favoritesAtom = Atom(name: '_FavoriteStore.favorites');
 
   @override
@@ -24,23 +30,6 @@ mixin _$FavoriteStore on _FavoriteStore, Store {
       super.favorites = value;
       _$favoritesAtom.reportChanged();
     }, _$favoritesAtom, name: '${_$favoritesAtom.name}_set');
-  }
-
-  final _$numberOfFavAtom = Atom(name: '_FavoriteStore.numberOfFav');
-
-  @override
-  int get numberOfFav {
-    _$numberOfFavAtom.context.enforceReadPolicy(_$numberOfFavAtom);
-    _$numberOfFavAtom.reportObserved();
-    return super.numberOfFav;
-  }
-
-  @override
-  set numberOfFav(int value) {
-    _$numberOfFavAtom.context.conditionallyRunInAction(() {
-      super.numberOfFav = value;
-      _$numberOfFavAtom.reportChanged();
-    }, _$numberOfFavAtom, name: '${_$numberOfFavAtom.name}_set');
   }
 
   final _$_FavoriteStoreActionController =

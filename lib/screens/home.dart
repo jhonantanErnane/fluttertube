@@ -6,14 +6,16 @@ import 'package:fluttertube/screens/favorites.dart';
 import 'package:fluttertube/store/favorite_store.dart';
 import 'package:fluttertube/store/video_store.dart';
 import 'package:fluttertube/tiles/video_tile.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   Home({Key key}) : super(key: key);
   final VideoStore _videoStore = VideoStore();
-  final FavoriteStore _favoriteStore = FavoriteStore();
 
   @override
   Widget build(BuildContext context) {
+    final _favoriteStore = Provider.of<FavoriteStore>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(

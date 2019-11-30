@@ -3,12 +3,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertube/models/video.dart';
 import 'package:fluttertube/store/favorite_store.dart';
+import 'package:provider/provider.dart';
 import '../api.dart';
 
 class VideoTile extends StatelessWidget {
   final Video video;
   VideoTile({Key key, this.video}) : super(key: key);
-  final _favoriteStore = FavoriteStore();
+  // final _favoriteStore = FavoriteStore();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,7 @@ class VideoTile extends StatelessWidget {
                 ),
                 Observer(
                   builder: (context) {
+                    final _favoriteStore = Provider.of<FavoriteStore>(context);
                     return IconButton(
                       icon: Icon(_favoriteStore.favorites.contains(video)
                           ? Icons.star

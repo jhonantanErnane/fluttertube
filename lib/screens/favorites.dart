@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertube/api.dart';
+import 'package:fluttertube/store/favorite_store.dart';
+import 'package:provider/provider.dart';
 
 class Favorites extends StatelessWidget {
   const Favorites({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final _favBloc = BlocProvider.of<FavoriteBloc>(context);
+    final _favoriteStore = Provider.of<FavoriteStore>(context);
+    for (var item in _favoriteStore.favorites) {
+      print(item.title);
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text('Favoritos'),
