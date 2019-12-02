@@ -70,15 +70,27 @@ class Home extends StatelessWidget {
             break;
           case LoadingState.done:
             return ListView.builder(
-                itemCount: _videoStore.videos.length,
+                itemCount: _videoStore.videos.length +1,
                 itemBuilder: (BuildContext context, int index) {
                   if (_videoStore.videos == null ||
                       _videoStore.videos.length == 0) {
                     return Container();
-                  } else {
+                  } else if (index < _videoStore.videos.length) {
                     return VideoTile(
                       video: _videoStore.videos[index],
                     );
+                  } else if (index > 1) {
+                    _videoStore.onSearch(null);
+                    return Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.red),
+                      ),
+                    );
+                  } else {
+                    return Container();
                   }
                 });
             break;

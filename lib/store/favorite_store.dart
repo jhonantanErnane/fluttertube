@@ -15,7 +15,7 @@ abstract class _FavoriteStore with Store {
   ObservableList<Video> favorites = ObservableList<Video>();
 
   @computed
-  int get numberOfFav => favorites.length;
+  int get numberOfFav => favorites == null ? 0 : favorites.length;
 
   @action
   Future toggleFavorite(Video v) async {

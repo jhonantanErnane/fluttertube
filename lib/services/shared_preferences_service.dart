@@ -15,9 +15,13 @@ class SharedPreferencesService {
   }
 
   ObservableList<Video> get favorites {
-    return ObservableList.of(json
-        .decode(_sharedPreferences.getString('favorites'))
-        .map<Video>((v) => Video.fromJson(v))
-        .toList()) ?? ObservableList<Video>();
+    if (_sharedPreferences.getString(_favoritesKey) != null) {
+      return ObservableList.of(json
+          .decode(_sharedPreferences.getString(_favoritesKey))
+          .map<Video>((v) => Video.fromJson(v))
+          .toList());
+    } else {
+      return ObservableList<Video>();
+    }
   }
 }

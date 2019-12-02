@@ -12,14 +12,14 @@ mixin _$VideoStore on _VideoStore, Store {
   final _$videosAtom = Atom(name: '_VideoStore.videos');
 
   @override
-  List<Video> get videos {
+  ObservableList<Video> get videos {
     _$videosAtom.context.enforceReadPolicy(_$videosAtom);
     _$videosAtom.reportObserved();
     return super.videos;
   }
 
   @override
-  set videos(List<Video> value) {
+  set videos(ObservableList<Video> value) {
     _$videosAtom.context.conditionallyRunInAction(() {
       super.videos = value;
       _$videosAtom.reportChanged();
@@ -46,7 +46,7 @@ mixin _$VideoStore on _VideoStore, Store {
   final _$onSearchAsyncAction = AsyncAction('onSearch');
 
   @override
-  Future onSearch(String search) {
+  Future<void> onSearch(String search) {
     return _$onSearchAsyncAction.run(() => super.onSearch(search));
   }
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertube/models/video.dart';
+import 'package:fluttertube/services/api.dart';
 import 'package:fluttertube/store/favorite_store.dart';
 import 'package:provider/provider.dart';
-import '../api.dart';
 
 class VideoTile extends StatelessWidget {
   final Video video;
