@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fluttertube/models/video.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,5 +22,13 @@ class SharedPreferencesService {
     } else {
       return ObservableList<Video>();
     }
+  }
+
+  set themeUser(bool isDarkTheme) {
+    _sharedPreferences.setBool('theme', isDarkTheme);
+  }
+
+  bool get isDarkTheme {
+    return _sharedPreferences.getBool('theme') ?? true;
   }
 }

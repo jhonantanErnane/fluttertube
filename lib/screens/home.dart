@@ -4,6 +4,7 @@ import 'package:fluttertube/delegates/data_search.dart';
 import 'package:fluttertube/enums/loading_enum.dart';
 import 'package:fluttertube/screens/favorites.dart';
 import 'package:fluttertube/store/favorite_store.dart';
+import 'package:fluttertube/store/theme_store.dart';
 import 'package:fluttertube/store/video_store.dart';
 import 'package:fluttertube/tiles/video_tile.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +16,19 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _favoriteStore = Provider.of<FavoriteStore>(context);
+    final _themeStore = Provider.of<ThemeStore>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          'images/yt_logo_rgb_dark.png',
-          height: 25,
+        title: GestureDetector(
+          onTap: () {
+            print('click');
+            _themeStore.changeTheme();
+          },
+          child: Image.asset(
+            'images/yt_logo_rgb_dark.png',
+            height: 25,
+          ),
         ),
         elevation: 0,
         actions: <Widget>[
@@ -70,7 +78,7 @@ class Home extends StatelessWidget {
             break;
           case LoadingState.done:
             return ListView.builder(
-                itemCount: _videoStore.videos.length +1,
+                itemCount: _videoStore.videos.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   if (_videoStore.videos == null ||
                       _videoStore.videos.length == 0) {

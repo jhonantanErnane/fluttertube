@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertube/store/theme_store.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class DataSearch extends SearchDelegate<String> {
+  DataSearch() : super(searchFieldLabel: 'procurar');
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -66,7 +70,13 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    return ThemeData.dark();
+    return Provider.of<ThemeStore>(context).isDarkTheme
+        ? ThemeData.dark()
+        : ThemeData.light().copyWith(
+            inputDecorationTheme: InputDecorationTheme(
+            hintStyle:
+                Theme.of(context).textTheme.title.copyWith(color: Colors.white60),
+          ));
   }
 
   Future<List> suggestions(String search) async {
